@@ -33,7 +33,7 @@
             this.lID1 = new System.Windows.Forms.Label();
             this.lFN1 = new System.Windows.Forms.Label();
             this.lLN1 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.cbQuantity = new System.Windows.Forms.ComboBox();
             this.lID2 = new System.Windows.Forms.Label();
             this.lFN2 = new System.Windows.Forms.Label();
             this.lLN2 = new System.Windows.Forms.Label();
@@ -68,7 +68,8 @@
             this.winnerListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.cbPrize = new System.Windows.Forms.ComboBox();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -79,7 +80,7 @@
             this.drawButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.drawButton.AutoSize = true;
             this.drawButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.drawButton.Location = new System.Drawing.Point(629, 646);
+            this.drawButton.Location = new System.Drawing.Point(577, 618);
             this.drawButton.Name = "drawButton";
             this.drawButton.Size = new System.Drawing.Size(40, 23);
             this.drawButton.TabIndex = 0;
@@ -124,12 +125,12 @@
             this.lLN1.Text = "LastName";
             this.lLN1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // comboBox1
+            // cbQuantity
             // 
-            this.comboBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.cbQuantity.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.cbQuantity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbQuantity.FormattingEnabled = true;
+            this.cbQuantity.Items.AddRange(new object[] {
             "1",
             "2",
             "3",
@@ -140,11 +141,11 @@
             "8",
             "9",
             "10"});
-            this.comboBox1.Location = new System.Drawing.Point(699, 646);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(75, 21);
-            this.comboBox1.TabIndex = 6;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.cbQuantity.Location = new System.Drawing.Point(623, 618);
+            this.cbQuantity.Name = "cbQuantity";
+            this.cbQuantity.Size = new System.Drawing.Size(75, 21);
+            this.cbQuantity.TabIndex = 6;
+            this.cbQuantity.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // lID2
             // 
@@ -539,15 +540,24 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
-            // comboBox2
+            // cbPrize
             // 
-            this.comboBox2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(806, 646);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(121, 21);
-            this.comboBox2.TabIndex = 9;
+            this.cbPrize.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.cbPrize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbPrize.FormattingEnabled = true;
+            this.cbPrize.Location = new System.Drawing.Point(704, 620);
+            this.cbPrize.Name = "cbPrize";
+            this.cbPrize.Size = new System.Drawing.Size(121, 21);
+            this.cbPrize.TabIndex = 9;
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.toolStrip1.Location = new System.Drawing.Point(0, 656);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(1264, 25);
+            this.toolStrip1.TabIndex = 10;
+            this.toolStrip1.Text = "toolStrip1";
             // 
             // MainForm
             // 
@@ -555,8 +565,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1264, 681);
-            this.Controls.Add(this.comboBox2);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.cbPrize);
+            this.Controls.Add(this.cbQuantity);
             this.Controls.Add(this.lLN10);
             this.Controls.Add(this.lLN5);
             this.Controls.Add(this.lLN9);
@@ -594,6 +605,7 @@
             this.Name = "MainForm";
             this.Text = "MainForm";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -609,7 +621,7 @@
         private System.Windows.Forms.Label lID1;
         private System.Windows.Forms.Label lLN1;
         public System.Windows.Forms.Label lFN1;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cbQuantity;
         private System.Windows.Forms.Label lID2;
         public System.Windows.Forms.Label lFN2;
         private System.Windows.Forms.Label lLN2;
@@ -644,6 +656,7 @@
         private System.Windows.Forms.ToolStripMenuItem winnerListToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox cbPrize;
+        private System.Windows.Forms.ToolStrip toolStrip1;
     }
 }

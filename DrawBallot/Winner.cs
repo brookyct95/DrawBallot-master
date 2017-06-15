@@ -22,7 +22,9 @@ namespace DrawBallot
             mTable.Columns.Add("First Name");
             mTable.Columns.Add("Last Name");
             mTable.Columns.Add("Prize");
+            mTable.Columns.Add("Date");
             dataGridView1.DataSource = mTable;
+            dataGridView1.Columns["Date"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
         }
         public DataTable Table
         {

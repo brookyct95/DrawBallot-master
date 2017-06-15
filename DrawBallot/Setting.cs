@@ -60,7 +60,7 @@ namespace DrawBallot
             //mAdapter.Fill(mDataTable);
 
             //new SQLiteCommandBuilder(mAdapter);
-            //dataGridView1.DataSource = mDataTable;
+            dataGridView1.DataSource = mDataTable;
         }
 
         /*public static List<string> ExcelReader(string fileLocation)
