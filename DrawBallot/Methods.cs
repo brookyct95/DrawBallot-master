@@ -50,7 +50,7 @@ namespace DrawBallot
             return sb.ToString();
         }
 
-        public static DataTable ConvertCSVtoDataTable(string strFilePath)
+        public static DataTable ConvertCSVtoDataTable1(string strFilePath)
         {
             StreamReader sr = new StreamReader(strFilePath);
             string[] headers = sr.ReadLine().Split(';');
@@ -75,6 +75,28 @@ namespace DrawBallot
                         dr[i] = ToBoolean(rows[i]);
                     }
                     
+                }
+                dt.Rows.Add(dr);
+            }
+            return dt;
+        }
+
+        public static DataTable ConvertCSVtoDataTable2(string strFilePath)
+        {
+            StreamReader sr = new StreamReader(strFilePath);
+            string[] headers = sr.ReadLine().Split(';');
+            DataTable dt = new DataTable();
+            foreach (string header in headers)
+            {
+                dt.Columns.Add(header);
+            }
+            while (!sr.EndOfStream)
+            {
+                string[] rows = Regex.Split(sr.ReadLine(), ";");
+                DataRow dr = dt.NewRow();
+                for (int i = 0; i < headers.Length; i++)
+                {
+                        dr[i] = rows[i];
                 }
                 dt.Rows.Add(dr);
             }

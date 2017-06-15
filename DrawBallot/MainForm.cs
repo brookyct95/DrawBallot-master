@@ -73,9 +73,10 @@ namespace DrawBallot
                 //while (reader.Read())
                 //{
                 int n = setting.Table.Rows.Count;
+                int m = setting.Table.Columns.Count;
                 for (int i = 0; i < n; i++)
                 {
-                    if (!setting.Table.Rows[i].Field<bool>(3))
+                    if (!setting.Table.Rows[i].Field<bool>(m-1))
                     {
                         IDList.Add(setting.Table.Rows[i].Field<string>(0));
                     }
@@ -104,8 +105,8 @@ namespace DrawBallot
                 DataRow result = setting.Table.NewRow();
                 for (int i = 0;i<n;i++)
                 {
-                    
-                    result = setting.Table.Select("ID ='" + this.idList[i].Text + "'").FirstOrDefault();
+                    string cmd = setting.Table.Columns[0].Caption + " ='" + this.idList[i].Text + "'";
+                    result = setting.Table.Select(cmd).FirstOrDefault();
                     result[3] = true;
                     DataRow newrow = winner.Table.NewRow();
                     newrow["ID"] = idList[i].Text;
@@ -131,15 +132,13 @@ namespace DrawBallot
 
         void timer_Tick(Object Sender, EventArgs e)
         {
-            DataRow result = setting.Table.NewRow();
-            
-            
+            DataRow result1 = setting.Table.NewRow(); 
                 for (int i = 0; i < 10; i++)
                 {
                     this.idList[i].Text = IDList[(index + i) % IDList.Count];
 
-
-                    result = setting.Table.Select("ID ='" + this.idList[i].Text + "'").FirstOrDefault();
+                    string cmd1 = setting.Table.Columns[0].Caption + "='" + this.idList[i].Text + "'";
+                    result1 = setting.Table.Select(cmd1).FirstOrDefault();
 
 
                     //string strSql = "Select * From PARTICIPANT where ID =" + IDList[(index+i)%IDList.Count] + ";";
@@ -147,8 +146,8 @@ namespace DrawBallot
                     //SQLiteDataReader reader = sql.ExecuteReader();
                     //while (reader.Read())
 
-                    FNList[i].Text = result[1].ToString();
-                    LNList[i].Text = result[2].ToString();
+                    FNList[i].Text = result1[1].ToString();
+                    LNList[i].Text = result1[2].ToString();
 
                     index++;
                     if (index >= IDList.Count)
@@ -240,14 +239,15 @@ namespace DrawBallot
             toolStrip1.Items.Add(box1);
             toolStrip1.Items.Add(box2);
             //load exel file
-            /*if (File.Exists("Participant.csv"))
+            if (File.Exists("Participant.csv"))
             {
-                setting.Table = Methods.ConvertCSVtoDataTable("Participant.csv");
+                setting.Table = Methods.ConvertCSVtoDataTable1("Participant.csv");
             }
-            else {*/ 
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Title = "Choose data source";
-            ofd.Filter = "Excel File (*.xlsx)|*.xlsx|07-2003 Excel File (*.xls)|*.xls|all file (*.*)|*.*";
+            else
+            { 
+                OpenFileDialog ofd = new OpenFileDialog();
+                ofd.Title = "Choose data source";
+                ofd.Filter = "Excel File (*.xlsx)|*.xlsx|07-2003 Excel File (*.xls)|*.xls|all file (*.*)|*.*";
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
                     /*setting.Table.Clear();
@@ -296,10 +296,14 @@ namespace DrawBallot
                     Marshal.ReleaseComObject(xlApp);*/
 
                     File.WriteAllText("Participant.csv", Methods.ExcelToCSV(ofd.FileName, ';').ToString());
-                    setting.Table = Methods.ConvertCSVtoDataTable("Participant.csv");
+                    setting.Table = Methods.ConvertCSVtoDataTable1("Participant.csv");
                     MessageBox.Show("Loading Done");
-                }
-            //}
+                }   
+            }
+            if (File.Exists("Winner.csv"))
+            {
+                winner.Table = Methods.ConvertCSVtoDataTable2("Winner.csv");
+            }
         }
 
         private void toolStripButton2_Click_1(object sender, EventArgs e)
