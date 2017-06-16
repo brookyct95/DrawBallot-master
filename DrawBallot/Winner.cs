@@ -18,10 +18,6 @@ namespace DrawBallot
         {
             InitializeComponent();
             mTable.Clear();
-            mTable.Columns.Add("ID");
-            mTable.Columns.Add("First Name");
-            mTable.Columns.Add("Last Name");
-            mTable.Columns.Add("Prize");
             dataGridView1.DataSource = mTable;
         }
         public DataTable Table

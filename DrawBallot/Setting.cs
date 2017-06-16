@@ -17,8 +17,6 @@ namespace DrawBallot
     public partial class Setting : Form
     {
         Form _form = null;
-        //SQLiteConnection mConn;
-        //SQLiteDataAdapter mAdapter;
         DataTable mDataTable = new DataTable();
         int Mode = 0;
         public BindingList<string> listPrize = new BindingList<string>();
@@ -60,7 +58,7 @@ namespace DrawBallot
             //mAdapter.Fill(mDataTable);
 
             //new SQLiteCommandBuilder(mAdapter);
-            //dataGridView1.DataSource = mDataTable;
+            dataGridView1.DataSource = mDataTable;
         }
 
         /*public static List<string> ExcelReader(string fileLocation)
@@ -91,122 +89,10 @@ namespace DrawBallot
             ofd.Filter = "Excel File (*.xlsx)|*.xlsx|07-2003 Excel File (*.xls)|*.xls|all file (*.*)|*.*";
             if (ofd.ShowDialog() == DialogResult.OK)
             {
-                
-
-                mDataTable.Clear();
-
-                Excel.Application xlApp = new Excel.Application();
-                Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(ofd.FileName);
-                Excel._Worksheet xlWorksheet = (Excel._Worksheet)xlWorkbook.Sheets[1];
-                Excel.Range xlRange = xlWorksheet.UsedRange;
-
-                int RowCount = xlRange.Rows.Count;
-                int ColCount = xlRange.Columns.Count;
-
-                /*object[,] data = xlRange.Value2;
-
-                // Create new Column in DataTable
-                for (int cCnt = 1; cCnt <= xlRange.Columns.Count; cCnt++)
-                {
-                    textBox3.Text = cCnt.ToString();
-
-                    var Column = new DataColumn();
-                    Column.DataType = System.Type.GetType("System.String");
-                    Column.ColumnName = xlRange[1,cCnt].ToString();
-                    mDataTable.Columns.Add(Column);
-
-                    // Create row for Data Table
-                    for (int rCnt = 2; rCnt <= xlRange.Rows.Count; rCnt++)
-                    {
-                        textBox2.Text = rCnt.ToString();
-
-                        string CellVal = String.Empty;
-                        try
-                        {
-                            CellVal = Convert.ToString((data[rCnt, cCnt]));
-                        }
-                        catch (Microsoft.CSharp.RuntimeBinder.RuntimeBinderException)
-                        {
-                            
-                        }
-
-                        DataRow Row;
-
-                        // Add to the DataTable
-                        if (cCnt == 1)
-                        {
-
-                            Row = mDataTable.NewRow();
-                            Row[cCnt.ToString()] = CellVal;
-                            mDataTable.Rows.Add(Row);
-                        }
-                        else
-                        {
-
-                            Row = mDataTable.Rows[rCnt];
-                            Row[cCnt.ToString()] = CellVal;
-
-                        }
-                    }
-                }*/
-                string tempID = null;
-                string tempFirstName = null;
-                string tempLastName = null;
-                
-                for (int i = 1; i <= RowCount; i++)
-                {
-                    tempID = xlRange.Cells[i, 1].Value2.ToString();
-                    tempFirstName = xlRange.Cells[i, 2].Value2.ToString();
-                    tempLastName = xlRange.Cells[i, 3].Value2.ToString();
-                    //SQLiteCommand sqlCmd = new SQLiteCommand("Insert into participant (ID,FIRSTNAME,LASTNAME) values (@ID,@FN,@LN);", mConn);
-                    //SQLiteParameter p = new SQLiteParameter("@ID", System.Data.DbType.String);
-                    //p.Value = tempID;
-                    //sqlCmd.Parameters.Add(p);
-                    //p = new SQLiteParameter("@FN", System.Data.DbType.String);
-                    //p.Value = tempFirstName;
-                    //sqlCmd.Parameters.Add(p);
-                    //p = new SQLiteParameter("@LN", System.Data.DbType.String);
-                    //p.Value = tempLastName;
-                    //sqlCmd.Parameters.Add(p);
-
-                    //try
-                    //{
-                    //sqlCmd.ExecuteNonQuery();
-                    //}
-                    //catch(Exception ex)
-                    //{
-                    // MessageBox.Show(ex.Message);
-                    //}
-
-                    //mAdapter = new SQLiteDataAdapter("SELECT * FROM [PARTICIPANT]", mConn);
-                    //DataTable mTable = new DataTable(); // Don't forget initialize!
-                    //mAdapter.Fill(mTable);
-                    //new SQLiteCommandBuilder(mAdapter);
-                    DataRow newrow = mDataTable.NewRow();
-                    newrow[0] = tempID;
-                    newrow[1] = tempFirstName;
-                    newrow[2] = tempLastName;
-                    mDataTable.Rows.Add(newrow);
-                }
-                //cleanup
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-
-                //rule of thumb for releasing com objects:
-                //  never use two dots, all COM objects must be referenced and released individually
-                //  ex: [somthing].[something].[something] is bad
-
-                //release com objects to fully kill excel process from running in the background
-                Marshal.ReleaseComObject(xlRange);
-                Marshal.ReleaseComObject(xlWorksheet);
-
-                //close and release
-                xlWorkbook.Close();
-                Marshal.ReleaseComObject(xlWorkbook);
-
-                //quit and release
-                xlApp.Quit();
-                Marshal.ReleaseComObject(xlApp);
+                File.WriteAllText("Participant.csv", Methods.ExcelToCSV(ofd.FileName, ';').ToString());
+                mDataTable = Methods.ConvertCSVtoDataTable1("Participant.csv");
+                MessageBox.Show("Loading Done");
+                dataGridView1.DataSource = mDataTable;
             }
         }
 
