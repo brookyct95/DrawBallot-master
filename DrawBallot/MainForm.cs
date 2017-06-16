@@ -116,7 +116,7 @@ namespace DrawBallot
                     newrow["Date"] = DateTime.Now.ToString();
                     winner.Table.Rows.Add(newrow);
                 }              
-                //mConn.Close();
+                
             }
         }
 
